@@ -12,6 +12,17 @@
 > 5 modeles Deep Learning compares + MLflow Model Registry
 > + API REST deployee + interface Streamlit 3 pages.
 
+## Structure du projet
+projet-maintenance-predictive/
+├── notebooks/
+│   └── projet4_maintenance.ipynb  ← pipeline complet
+├── app/
+│   └── app.py                     ← interface Streamlit
+├── results/
+│   └── comparaison_finale.png     ← graphiques comparatifs
+├── requirements.txt
+└── README.md
+
 ## Resultats — Regression RUL
 
 | Modele | RMSE  | MAE   | R2     | Duree |
@@ -31,13 +42,14 @@
 
 ## Deploiement MLflow
 
-### Model Registry
-Modeles versiones dans MLflow Model Registry :
-- Maintenance_GRU   v1 — Production (RMSE 54.56)
-- Maintenance_MLP   v1 — Staging
-- Maintenance_LSTM  v1 — Archived
-- Maintenance_CNN1D v1 — Archived
-- Maintenance_AE    v1 — Archived (Autoencoder)
+### Model Registry — 5 modeles · 2 versions chacun
+| Modele           | v1          | v2                    | Statut     |
+|------------------|-------------|-----------------------|------------|
+| Maintenance_GRU  | sans sign.  | avec signature ✅     | Production |
+| Maintenance_MLP  | sans sign.  | avec signature ✅     | Staging    |
+| Maintenance_CNN1D| sans sign.  | avec signature ✅     | Archived   |
+| Maintenance_LSTM | sans sign.  | avec signature ✅     | Archived   |
+| Maintenance_AE   | sans sign.  | avec signature ✅     | Archived   |
 
 ### Lancer MLflow UI
 mlflow ui --backend-store-uri file:///path/to/mlruns --port 5004
@@ -45,7 +57,7 @@ mlflow ui --backend-store-uri file:///path/to/mlruns --port 5004
 
 ### API REST — GRU en production
 export MLFLOW_TRACKING_URI="file:///path/to/mlruns"
-mlflow models serve --model-uri "models:/Maintenance_GRU/1" --port 5003 --no-conda
+mlflow models serve --model-uri "models:/Maintenance_GRU/2" --port 5003 --no-conda
 → http://127.0.0.1:5003/invocations
 
 ### Test API
@@ -64,22 +76,22 @@ streamlit run app/app.py
 → http://localhost:8501
 
 Pages :
-- Dashboard          : KPIs, capteurs, jauge sante turbine
-- Detection Anomalies: turbines a risque, alertes, pie chart
-- Comparaison Modeles: tableaux et graphiques comparatifs
+- Dashboard           : KPIs, capteurs, jauge sante turbine
+- Detection Anomalies : turbines a risque, alertes, pie chart
+- Comparaison Modeles : tableaux et graphiques comparatifs
 
 ## Dataset
 NASA CMAPSS FD001
 - 100 turbines avion
 - 20 631 echantillons train · 13 096 test
 - 14 features capteurs selectionnes
-- 6 classes RUL : lineaire, plafonne (125), piecewise
+- 3 approches RUL : lineaire, plafonne (125), piecewise
 - Fenetre temporelle : 30 cycles (sliding window)
 
 ## Stack technique
 - Python 3.10
 - TensorFlow 2.13 · Keras
-- MLflow 2.19 · Model Registry · API REST
+- MLflow 2.19 · Model Registry · Signatures · API REST
 - Streamlit · Plotly
 - Scikit-learn · Pandas · NumPy · Matplotlib
 
