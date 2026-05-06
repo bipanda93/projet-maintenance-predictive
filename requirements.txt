@@ -1,0 +1,11 @@
+tensorflow==2.13.0
+scikit-learn
+pandas
+numpy==1.24.3
+matplotlib
+seaborn
+mlflow==2.19.0
+streamlit
+plotly
+jupyter
+ipykernel

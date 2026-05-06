@@ -1,0 +1,9 @@
+# Dataset — trop lourd
+data/
+mlruns/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.h5
+.DS_Store
+models/*.h5
